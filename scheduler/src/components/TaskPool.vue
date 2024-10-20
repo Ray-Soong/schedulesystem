@@ -17,14 +17,8 @@
 <script>
 export default {
   name: "TaskPool",
-  data() {
-    return {
-      tasks: [
-        { id: 1, name: "任务A", hours: 2 },
-        { id: 2, name: "任务B", hours: 4 },
-        { id: 3, name: "任务C", hours: 3 },
-      ],
-    };
+  props: {
+    tasks: Array, // 从父组件接收任务列表
   },
   methods: {
     onDragStart(task) {
