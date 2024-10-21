@@ -1,17 +1,14 @@
 <template>
   <div class="workstation-pool">
-    <!-- 时间线，统一显示在所有工位上方 -->
     <div class="time-line">
       <div v-for="hour in 9" :key="hour" class="time-line-hour">
         {{ hour + 9 }}:00
       </div>
     </div>
 
-    <!-- 工位行 -->
     <div v-for="workstation in workstations" :key="workstation.id" class="workstation-row">
       <div class="workstation-name">{{ workstation.name }}</div>
       <div class="workstation-timeline" @dragover.prevent @drop="onDrop($event, workstation.id)">
-        <!-- 仅显示网格，不显示具体时间 -->
         <div v-for="hour in 9" :key="hour" class="hour-block">
           <div
             v-for="task in filteredTasks(workstation.tasks, hour)"

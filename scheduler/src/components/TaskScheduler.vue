@@ -2,7 +2,7 @@
   <div class="task-scheduler">
     <div class="left-panel">
       <AddWorkstationButton @add-workstation="addWorkstation" />
-      <TaskPool :tasks="tasks" />
+      <TaskPool :tasks="tasks" @add-task="addTask" @delete-task="deleteTask" />
     </div>
     <div class="right-panel">
       <WorkstationPool
@@ -24,9 +24,9 @@ export default {
   data() {
     return {
       tasks: [
-        { id: 1, name: "任务A", hours: 2 },
+        { id: 1, name: "任务A", hours: 6 },
         { id: 2, name: "任务B", hours: 4 },
-        { id: 3, name: "任务C", hours: 3 },
+        { id: 3, name: "任务C", hours: 5 },
       ],
       workstations: [
         { id: 1, name: "工位1", tasks: [] },
@@ -40,6 +40,12 @@ export default {
         name: name,
         tasks: [],
       });
+    },
+    addTask(task) {
+      this.tasks.push(task); // 添加任务到任务池
+    },
+    deleteTask(taskId) {
+      this.tasks = this.tasks.filter((task) => task.id !== taskId); // 删除任务
     },
     assignTaskToWorkstation({ task, workstationId, hour }) {
       // 将任务从任务池中移除
