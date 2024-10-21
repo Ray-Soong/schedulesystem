@@ -1,10 +1,18 @@
 <template>
   <div class="workstation-pool">
+    <!-- 时间线，统一显示在所有工位上方 -->
+    <div class="time-line">
+      <div v-for="hour in 9" :key="hour" class="time-line-hour">
+        {{ hour + 9 }}:00
+      </div>
+    </div>
+
+    <!-- 工位行 -->
     <div v-for="workstation in workstations" :key="workstation.id" class="workstation-row">
       <div class="workstation-name">{{ workstation.name }}</div>
       <div class="workstation-timeline" @dragover.prevent @drop="onDrop($event, workstation.id)">
+        <!-- 仅显示网格，不显示具体时间 -->
         <div v-for="hour in 9" :key="hour" class="hour-block">
-          {{ hour + 9 }}:00
           <div
             v-for="task in filteredTasks(workstation.tasks, hour)"
             :key="task.id"
@@ -27,9 +35,7 @@ export default {
   },
   computed: {
     filteredTasks() {
-      return (tasks, hour) => {
-        return tasks.filter((task) => task.start === hour);  // 过滤特定时间段的任务
-      };
+      return (tasks, hour) => tasks.filter((task) => task.start === hour);
     },
   },
   methods: {
@@ -51,6 +57,17 @@ export default {
   flex-direction: column;
 }
 
+.time-line {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.time-line-hour {
+  flex-grow: 1;
+  text-align: center;
+  border-right: 1px solid #eee;
+}
+
 .workstation-row {
   display: flex;
   margin-bottom: 10px;
@@ -66,13 +83,14 @@ export default {
   flex-grow: 1;
   display: flex;
   border: 1px solid #ccc;
+  position: relative;
 }
 
 .hour-block {
   flex-grow: 1;
-  text-align: center;
   position: relative;
   border-right: 1px solid #eee;
+  height: 40px;
 }
 
 .task-block {

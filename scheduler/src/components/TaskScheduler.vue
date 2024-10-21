@@ -34,10 +34,10 @@ export default {
     };
   },
   methods: {
-    addWorkstation() {
+    addWorkstation(name) {
       this.workstations.push({
         id: this.workstations.length + 1,
-        name: `工位${this.workstations.length + 1}`,
+        name: name,
         tasks: [],
       });
     },
