@@ -31,13 +31,14 @@ export default {
     return {
       // 初始任务池数据
       tasks: [
-        { id: 1, name: "任务A", hours: 6 },
-        { id: 2, name: "任务B", hours: 4 },
-        { id: 3, name: "任务C", hours: 5 },
+        { id: 1, name: "拼装凳子", hours: 6 },
+        { id: 2, name: "刷漆", hours: 4 },
+        { id: 3, name: "抛光", hours: 5 },
       ],
       // 初始工位数据
       workstations: [
         { id: 1, name: "工位1", tasks: [] },
+        { id: 2, name: "工位2", tasks: [] },
       ],
     };
   },
