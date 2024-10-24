@@ -19,7 +19,6 @@
 </template>
 
 <script>
-// 导入相关组件
 import TaskPool from "./TaskPool.vue";
 import WorkstationPool from "./WorkstationPool.vue";
 import AddWorkstationButton from "./AddWorkstationButton.vue";
@@ -29,13 +28,11 @@ export default {
   components: { TaskPool, WorkstationPool, AddWorkstationButton },
   data() {
     return {
-      // 初始任务池数据
       tasks: [
         { id: 1, name: "拼装凳子", hours: 6 },
         { id: 2, name: "刷漆", hours: 4 },
         { id: 3, name: "抛光", hours: 5 },
       ],
-      // 初始工位数据
       workstations: [
         { id: 1, name: "工位1", tasks: [] },
         { id: 2, name: "工位2", tasks: [] },
@@ -43,7 +40,6 @@ export default {
     };
   },
   methods: {
-    // 添加新工位
     addWorkstation(name) {
       this.workstations.push({
         id: this.workstations.length + 1,
@@ -51,32 +47,29 @@ export default {
         tasks: [],
       });
     },
-
-    // 添加任务到任务池
     addTask(task) {
       this.tasks.push(task);
     },
-
-    // 从任务池删除任务
     deleteTask(taskId) {
       this.tasks = this.tasks.filter((task) => task.id !== taskId);
     },
-
-    // 将任务分配到工位
     assignTaskToWorkstation({ task, workstationId, hour }) {
       const workstation = this.workstations.find((ws) => ws.id === workstationId);
       const endHour = hour + task.hours;
 
-      // 检查该时间段是否有任务重叠
+      // 检查时间段是否有重叠任务
       const hasOverlap = workstation.tasks.some(
         (t) => (t.start < endHour && t.start >= hour)
       );
-      
-      if (!hasOverlap) {
-        // 从任务池移除任务
-        this.tasks = this.tasks.filter((t) => t.id !== task.id);
 
-        // 将任务添加到工位的任务列表中
+      if (!hasOverlap) {
+        // 从任务池或原工位中移除任务
+        this.tasks = this.tasks.filter((t) => t.id !== task.id);
+        this.workstations.forEach((ws) => {
+          ws.tasks = ws.tasks.filter((t) => t.id !== task.id);
+        });
+
+        // 将任务添加到目标工位
         workstation.tasks.push({ ...task, start: hour });
       }
     },
@@ -88,15 +81,11 @@ export default {
 .task-scheduler {
   display: flex;
 }
-
-/* 左侧面板样式 */
 .left-panel {
   width: 20%;
   padding: 10px;
   border-right: 1px solid #ccc;
 }
-
-/* 右侧面板样式 */
 .right-panel {
   width: 80%;
   padding: 10px;

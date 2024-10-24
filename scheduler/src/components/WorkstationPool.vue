@@ -17,6 +17,8 @@
             v-if="taskAtHour(workstation.tasks, hour + 9)"
             class="task-block"
             :style="taskStyle(taskAtHour(workstation.tasks, hour + 9))"
+            draggable="true"
+            @dragstart="onDragStart(taskAtHour(workstation.tasks, hour + 9))"
           >
             {{ taskAtHour(workstation.tasks, hour + 9).name }}
           </div>
@@ -30,28 +32,31 @@
 export default {
   name: "WorkstationPool",
   props: {
-    workstations: Array,  // 工位列表
+    workstations: Array,
   },
   methods: {
+    onDragStart(task) {
+      event.dataTransfer.setData("task", JSON.stringify(task));
+    },
     onDrop(event, workstationId) {
       const task = JSON.parse(event.dataTransfer.getData("task"));
       const dropPosition = event.offsetX / event.target.clientWidth;
-      const hour = Math.floor(dropPosition * 10) + 9;  // 将拖拽位置映射为 9 到 19 点之间的小时
+      const hour = Math.floor(dropPosition * 10) + 9;
 
-      this.$emit("assign-task", { task, workstationId, hour });  // 触发任务分配事件
+      this.$emit("assign-task", { task, workstationId, hour });
     },
     taskAtHour(tasks, hour) {
-      return tasks.find(task => task.start === hour);  // 查找该时间段的任务
+      return tasks.find(task => task.start === hour);
     },
     taskStyle(task) {
-      const start = (task.start - 9) * 10;  // 计算任务的起始位置
+      const start = (task.start - 9) * 10;
       return {
-        width: `${task.hours * 10}%`,  // 根据任务的时长，调整宽度
-        backgroundColor: "rgba(0, 123, 255, 0.8)",  // 任务框的背景颜色
-        height: "90%",  // 高度为工位高度的 90%
-        top: "5%",  // 上下居中显示
-        left: `${start}%`,  // 任务框在工位网格的起始位置
-        position: "absolute",  // 绝对定位
+        width: `${task.hours * 10}%`,
+        backgroundColor: "rgba(0, 123, 255, 0.8)",
+        height: "90%",
+        top: "5%",
+        left: `${start}%`,
+        position: "absolute",
       };
     },
   },
@@ -63,43 +68,36 @@ export default {
   display: flex;
   flex-direction: column;
 }
-
 .time-line {
   display: flex;
   margin-bottom: 10px;
 }
-
 .time-line-hour {
   flex-grow: 1;
   text-align: center;
   border-right: 1px solid #eee;
 }
-
 .workstation-row {
   display: flex;
   margin-bottom: 10px;
 }
-
 .workstation-name {
   width: 100px;
   text-align: center;
   font-weight: bold;
 }
-
 .workstation-timeline {
   flex-grow: 1;
   display: flex;
   border: 1px solid #ccc;
   position: relative;
 }
-
 .hour-block {
   flex-grow: 1;
   border-right: 1px solid #eee;
   height: 40px;
   position: relative;
 }
-
 .task-block {
   background-color: rgba(0, 123, 255, 0.8);
   height: 90%;
