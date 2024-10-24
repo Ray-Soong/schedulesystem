@@ -1,22 +1,24 @@
 <template>
   <div class="workstation-pool">
+    <!-- 时间线，显示 9:00 到 19:00 (10 小时) -->
     <div class="time-line">
-      <div v-for="hour in 9" :key="hour" class="time-line-hour">
+      <div v-for="hour in 10" :key="hour" class="time-line-hour">
         {{ hour + 9 }}:00
       </div>
     </div>
 
+    <!-- 工位行 -->
     <div v-for="workstation in workstations" :key="workstation.id" class="workstation-row">
       <div class="workstation-name">{{ workstation.name }}</div>
       <div class="workstation-timeline" @dragover.prevent @drop="onDrop($event, workstation.id)">
-        <div v-for="hour in 9" :key="hour" class="hour-block">
+        <div v-for="hour in 10" :key="hour + 9" class="hour-block">
+          <!-- 如果该时间段有任务 -->
           <div
-            v-for="task in filteredTasks(workstation.tasks, hour)"
-            :key="task.id"
+            v-if="taskAtHour(workstation.tasks, hour + 9)"
             class="task-block"
-            :style="{ width: taskWidth(task.hours) + '%' }"
+            :style="taskStyle(taskAtHour(workstation.tasks, hour + 9))"
           >
-            {{ task.name }}
+            {{ taskAtHour(workstation.tasks, hour + 9).name }}
           </div>
         </div>
       </div>
@@ -28,27 +30,35 @@
 export default {
   name: "WorkstationPool",
   props: {
-    workstations: Array,
-  },
-  computed: {
-    filteredTasks() {
-      return (tasks, hour) => tasks.filter((task) => task.start === hour);
-    },
+    workstations: Array,  // 工位列表
   },
   methods: {
     onDrop(event, workstationId) {
       const task = JSON.parse(event.dataTransfer.getData("task"));
-      const hour = Math.floor(event.offsetX / (event.target.clientWidth / 9)) + 9;
-      this.$emit("assign-task", { task, workstationId, hour });
+      const dropPosition = event.offsetX / event.target.clientWidth;
+      const hour = Math.floor(dropPosition * 10) + 9;  // 将拖拽位置映射为 9 到 19 点之间的小时
+
+      this.$emit("assign-task", { task, workstationId, hour });  // 触发任务分配事件
     },
-    taskWidth(hours) {
-      return (hours / 9) * 100;
+    taskAtHour(tasks, hour) {
+      return tasks.find(task => task.start === hour);  // 查找该时间段的任务
+    },
+    taskStyle(task) {
+      const start = (task.start - 9) * 10;  // 计算任务的起始位置
+      return {
+        width: `${task.hours * 10}%`,  // 根据任务的时长，调整宽度
+        backgroundColor: "rgba(0, 123, 255, 0.8)",  // 任务框的背景颜色
+        height: "90%",  // 高度为工位高度的 90%
+        top: "5%",  // 上下居中显示
+        left: `${start}%`,  // 任务框在工位网格的起始位置
+        position: "absolute",  // 绝对定位
+      };
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .workstation-pool {
   display: flex;
   flex-direction: column;
@@ -85,19 +95,24 @@ export default {
 
 .hour-block {
   flex-grow: 1;
-  position: relative;
   border-right: 1px solid #eee;
   height: 40px;
+  position: relative;
 }
 
 .task-block {
+  background-color: rgba(0, 123, 255, 0.8);
+  height: 90%;
+  width: 100%;
   position: absolute;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
+  top: 5%;
   left: 0;
-  top: 0;
-  height: 100%;
-  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 5px;
 }
 </style>
