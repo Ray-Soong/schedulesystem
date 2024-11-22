@@ -2,8 +2,9 @@
   <div class="workstation-pool">
     <!-- 时间线，显示 9:00 到 19:00 (10 小时) -->
     <div class="time-line">
+      <div class="time-line-label" style="width: var(--timeline-label-width, 100px); text-align: center;">时间</div>
       <div v-for="hour in 10" :key="hour" class="time-line-hour">
-        {{ hour + 9 }}:00
+      {{ parseInt(hour) + 8 }}:00
       </div>
     </div>
 
