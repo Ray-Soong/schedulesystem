@@ -70,10 +70,11 @@ export default {
 }
 .time-line {
   display: flex;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  margin-left: var(--timeline-start, 100); /* 使用 CSS 变量配置起始位置 */
 }
 .time-line-hour {
-  flex-grow: 1;
+  flex: 1; /* 保证每个小时格子宽度相等 */
   text-align: center;
   border-right: 1px solid #eee;
 }

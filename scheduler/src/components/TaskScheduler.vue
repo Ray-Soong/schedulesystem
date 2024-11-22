@@ -6,6 +6,9 @@
 
       <!-- 任务池 -->
       <TaskPool :tasks="tasks" @add-task="addTask" @delete-task="deleteTask" />
+
+      <!-- 统计任务信息 -->
+      <TaskStats :tasks="tasks" :workstations="workstations" />
     </div>
 
     <!-- 工位池 -->
@@ -22,10 +25,11 @@
 import TaskPool from "./TaskPool.vue";
 import WorkstationPool from "./WorkstationPool.vue";
 import AddWorkstationButton from "./AddWorkstationButton.vue";
+import TaskStats from "./TaskStats.vue";
 
 export default {
   name: "TaskScheduler",
-  components: { TaskPool, WorkstationPool, AddWorkstationButton },
+  components: { TaskPool, WorkstationPool, AddWorkstationButton , TaskStats },
   data() {
     return {
       tasks: [
