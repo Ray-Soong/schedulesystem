@@ -49,9 +49,9 @@ export default {
       return tasks.find(task => task.start === hour);
     },
     taskStyle(task) {
-      const start = (task.start - 9) * 10;
+      const start = (task.start - 9);
       return {
-        width: `${task.hours * 10}%`,
+        width: `${task.hours * 100}%`,
         backgroundColor: "rgba(0, 123, 255, 0.8)",
         height: "90%",
         top: "5%",
