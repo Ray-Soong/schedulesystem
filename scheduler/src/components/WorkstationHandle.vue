@@ -40,7 +40,7 @@
 
 <script>
 export default {
-  name: "WorkstationButtonHandle",
+  name: "WorkstationHandle",
   data() {
     return {
       workstations: [

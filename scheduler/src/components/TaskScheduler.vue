@@ -5,7 +5,7 @@
       <TaskPool :tasks="tasks" @add-task="addTask" @delete-task="deleteTask" />
 
       <!-- 工位管理 -->
-      <WorkstationButtonHandle @update-workstations="updateWorkstations" />
+      <WorkstationHandle @update-workstations="updateWorkstations" />
 
       <!-- 统计任务信息 -->
       <TaskStats :tasks="tasks" :workstations="workstations" />
@@ -24,12 +24,12 @@
 <script>
 import TaskPool from "./TaskPool.vue";
 import WorkstationPool from "./WorkstationPool.vue";
-import WorkstationButtonHandle from "./WorkstationButtonHandle.vue";
+import WorkstationHandle from "./WorkstationHandle.vue";
 import TaskStats from "./TaskStats.vue";
 
 export default {
   name: "TaskScheduler",
-  components: { TaskPool, WorkstationPool, WorkstationButtonHandle, TaskStats },
+  components: { TaskPool, WorkstationPool, WorkstationHandle, TaskStats },
   data() {
     return {
       tasks: [
@@ -37,7 +37,7 @@ export default {
         { id: 2, name: "刷漆", hours: 4 },
         { id: 3, name: "抛光", hours: 5 },
       ],
-      workstations: [], // 等待 WorkstationButtonHandle 加载数据
+      workstations: [], // 等待 WorkstationHandle 加载数据
     };
   },
   methods: {
