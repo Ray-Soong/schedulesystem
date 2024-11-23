@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="station-mgr">
+    <h3>工位管理</h3>
     <div class="add-workstation-button">
       <button @click="showAddWorkstationModal">添加工位</button>
     </div>
@@ -44,6 +45,13 @@ export default {
 </script>
 
 <style>
+.station-mgr {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
 /* 简单的弹框样式 */
 .modal {
   position: fixed;
