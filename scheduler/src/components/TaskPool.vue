@@ -13,7 +13,7 @@
       draggable="true"
       @dragstart="onDragStart(task)"
     >
-      {{ task.name }} ({{ task.hours }}小时)
+      {{ task.name }} ({{ task.hours }}H)
       <button @click="deleteTask(task.id)">删除</button>
     </div>
 

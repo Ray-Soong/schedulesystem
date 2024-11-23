@@ -2,7 +2,7 @@
   <div class="workstation-pool">
     <!-- 时间线，显示 9:00 到 19:00 (10 小时) -->
     <div class="time-line">
-      <div class="time-line-label" style="width: var(--timeline-label-width, 100px); text-align: center;">时间</div>
+      <div class="time-line-label">时间</div>
       <div v-for="hour in 10" :key="hour" class="time-line-hour">
       {{ parseInt(hour) + 8 }}:00
       </div>
@@ -78,6 +78,11 @@ export default {
   flex: 1; /* 保证每个小时格子宽度相等 */
   text-align: center;
   border-right: 1px solid #eee;
+}
+.time-line-label {
+  width: var(--timeline-label-width, 100px); /* 使用 CSS 变量配置宽度 */
+  text-align: center;
+  font-weight: bold;
 }
 .workstation-row {
   display: flex;

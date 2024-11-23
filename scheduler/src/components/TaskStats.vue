@@ -4,7 +4,7 @@
       <div>
         <p>已分配任务数: {{ assignedTaskCount }}</p>
         <p>待分配任务数: {{ unassignedTaskCount }}</p>
-        <p>工位占用率: {{ workstationUtilization }}%</p>
+        <p>工位利用率: {{ workstationUtilization }}%</p>
       </div>
     </div>
   </template>
