@@ -1,6 +1,10 @@
 <template>
   <div>
-    <button @click="showAddWorkstationModal">添加工位</button>
+    <button 
+      @click="showAddWorkstationModal" 
+      style="background-color: #007bff; color: white; text-align: center; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;width: 100%;">
+      添加工位
+    </button>
 
     <!-- 弹框输入工位名称 -->
     <div v-if="showModal" class="modal">

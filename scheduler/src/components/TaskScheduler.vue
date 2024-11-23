@@ -1,11 +1,11 @@
 <template>
   <div class="task-scheduler">
     <div class="left-panel">
-      <!-- 添加工位按钮 -->
-      <AddWorkstationButton @add-workstation="addWorkstation" />
-
       <!-- 任务池 -->
       <TaskPool :tasks="tasks" @add-task="addTask" @delete-task="deleteTask" />
+
+      <!-- 添加工位按钮 -->
+      <AddWorkstationButton @add-workstation="addWorkstation" />
 
       <!-- 统计任务信息 -->
       <TaskStats :tasks="tasks" :workstations="workstations" />
