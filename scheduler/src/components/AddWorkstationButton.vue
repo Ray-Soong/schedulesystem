@@ -46,12 +46,19 @@ export default {
       workstations: [
         { id: 1, name: "工位-1", tasks: [] },
         { id: 2, name: "工位-2", tasks: [] },
+        { id: 3, name: "工位-3", tasks: [] },
+        { id: 4, name: "工位-4", tasks: [] },
+        { id: 5, name: "工位-5", tasks: [] },
       ],
       showAddModal: false,
       showDeleteModal: false,
       workstationName: "",
       deleteWorkstationName: "",
     };
+  },
+  mounted() {
+    // 页面加载时，将默认工位数据传递给父组件
+    this.$emit("update-workstations", [...this.workstations]);
   },
   methods: {
     closeAddModal() {

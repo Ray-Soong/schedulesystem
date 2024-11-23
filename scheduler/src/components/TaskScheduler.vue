@@ -37,7 +37,7 @@ export default {
         { id: 2, name: "刷漆", hours: 4 },
         { id: 3, name: "抛光", hours: 5 },
       ],
-      workstations: [], // 初始化为空，由 AddWorkstationButton 管理
+      workstations: [], // 等待 AddWorkstationButton 加载数据
     };
   },
   methods: {
