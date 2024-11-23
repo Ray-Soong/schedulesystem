@@ -38,8 +38,8 @@ export default {
         { id: 3, name: "抛光", hours: 5 },
       ],
       workstations: [
-        { id: 1, name: "工位1", tasks: [] },
-        { id: 2, name: "工位2", tasks: [] },
+        { id: 1, name: "工位-1", tasks: [] },
+        { id: 2, name: "工位-2", tasks: [] },
       ],
     };
   },

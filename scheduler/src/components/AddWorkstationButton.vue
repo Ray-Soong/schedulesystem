@@ -1,17 +1,38 @@
 <template>
   <div class="station-mgr">
     <h3>工位管理</h3>
-    <div class="add-workstation-button">
-      <button @click="showAddWorkstationModal">添加工位</button>
+    <div class="buttons">
+      <button @click="showAddModal = true">添加工位</button>
+      <button @click="showDeleteModal = true">删除工位</button>
     </div>
 
-    <!-- 弹框输入工位名称 -->
-    <div v-if="showModal" class="modal">
+    <!-- 添加工位弹框 -->
+    <div v-if="showAddModal" class="modal">
       <div class="modal-content">
         <h3>输入工位名称</h3>
-        <input v-model="workstationName" placeholder="工位名称" />
-        <button @click="confirmAddWorkstation">确认</button>
-        <button @click="closeModal">取消</button>
+        <input
+          v-model="workstationName"
+          :placeholder="`默认: 工位-${(workstations?.length || 0) + 1}`"
+        />
+        <div class="modal-actions">
+          <button @click="confirmAddWorkstation">确认</button>
+          <button @click="closeAddModal">取消</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 删除工位弹框 -->
+    <div v-if="showDeleteModal" class="modal">
+      <div class="modal-content">
+        <h3>输入要删除的工位名称</h3>
+        <input
+          v-model="deleteWorkstationName"
+          :placeholder="`默认: 工位-${(workstations?.length || 0)}`"
+        />
+        <div class="modal-actions">
+          <button @click="confirmDeleteWorkstation">确认</button>
+          <button @click="closeDeleteModal">取消</button>
+        </div>
       </div>
     </div>
   </div>
@@ -19,32 +40,48 @@
 
 <script>
 export default {
-  name: "AddWorkstationButton",
+  name: "StationManager",
+  props: {
+    workstations: {
+      type: Array,
+      default: () => [], // 默认值为空数组
+    },
+  },
   data() {
     return {
-      showModal: false,
+      showAddModal: false,
+      showDeleteModal: false,
       workstationName: "",
+      deleteWorkstationName: "",
     };
   },
   methods: {
-    showAddWorkstationModal() {
-      this.showModal = true;
-    },
-    closeModal() {
-      this.showModal = false;
+    closeAddModal() {
+      this.showAddModal = false;
       this.workstationName = "";
     },
     confirmAddWorkstation() {
-      if (this.workstationName.trim()) {
-        this.$emit("add-workstation", this.workstationName);
-        this.closeModal();
-      }
+      const name =
+        this.workstationName.trim() || `工位-${(this.workstations?.length || 0) + 1}`;
+      this.$emit("add-workstation", name);
+      this.closeAddModal();
+    },
+
+    closeDeleteModal() {
+      this.showDeleteModal = false;
+      this.deleteWorkstationName = "";
+    },
+    confirmDeleteWorkstation() {
+      const name =
+        this.deleteWorkstationName.trim() || `工位-${(this.workstations?.length || 0)}`;
+      this.$emit("delete-workstation", name);
+      this.closeDeleteModal();
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .station-mgr {
   margin-top: 20px;
   border: 1px solid #ccc;
@@ -52,7 +89,22 @@ export default {
   display: flex;
   flex-direction: column;
 }
-/* 简单的弹框样式 */
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #0056b3;
+}
 .modal {
   position: fixed;
   top: 0;
@@ -69,19 +121,8 @@ export default {
   padding: 20px;
   border-radius: 5px;
 }
-.add-workstation-button {
+.modal-actions {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #007bff;
-  color: white;
-  text-align: center;
-  cursor: pointer;
-  width: 200px;
-  height: 50px;
-  border: none;
-  border-radius: 5px;
-  margin: 20px auto;
-  font-size: 16px;
+  justify-content: space-between;
 }
 </style>
