@@ -2,8 +2,8 @@
   <div class="station-mgr">
     <h3>工位管理</h3>
     <div class="buttons">
-      <button @click="showAddModal = true">添加工位</button>
-      <button @click="showDeleteModal = true">删除工位</button>
+      <buttonm @click="showAddModal = true">添加工位</buttonm>
+      <buttonm @click="showDeleteModal = true">删除工位</buttonm>
     </div>
 
     <!-- 添加工位弹框 -->
@@ -108,7 +108,16 @@ export default {
 .buttons {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  width: 100%;
+}
+buttonm {
+  padding: 10px 50px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 button {
   padding: 10px 20px;
