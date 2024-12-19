@@ -12,16 +12,16 @@
     <div v-for="workstation in workstations" :key="workstation.id" class="workstation-row">
       <div class="workstation-name">{{ workstation.name }}</div>
       <div class="workstation-timeline" @dragover.prevent @drop="onDrop($event, workstation.id)">
-        <div v-for="hour in 10" :key="hour + 9" class="hour-block">
+        <div v-for="hour in 10" :key="hour + 8" class="hour-block">
           <!-- 如果该时间段有任务 -->
           <div
-            v-if="taskAtHour(workstation.tasks, hour + 9)"
+            v-if="taskAtHour(workstation.tasks, hour + 8)"
             class="task-block"
-            :style="taskStyle(taskAtHour(workstation.tasks, hour + 9))"
+            :style="taskStyle(taskAtHour(workstation.tasks, hour + 8))"
             draggable="true"
-            @dragstart="onDragStart(taskAtHour(workstation.tasks, hour + 9))"
+            @dragstart="onDragStart(taskAtHour(workstation.tasks, hour + 8))"
           >
-            {{ taskAtHour(workstation.tasks, hour + 9).name }}
+            {{ taskAtHour(workstation.tasks, hour + 8).name }}
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@ export default {
     onDrop(event, workstationId) {
       const task = JSON.parse(event.dataTransfer.getData("task"));
       const dropPosition = event.offsetX / event.target.clientWidth;
-      const hour = Math.floor(dropPosition * 10) + 9;
+      const hour = Math.floor(dropPosition * 10) + 8;
 
       this.$emit("assign-task", { task, workstationId, hour });
     },
@@ -50,7 +50,7 @@ export default {
       return tasks.find(task => task.start === hour);
     },
     taskStyle(task) {
-      const start = (task.start - 9);
+      const start = (task.start - 8);
       return {
         width: `${task.hours * 100}%`,
         backgroundColor: "rgba(0, 123, 255, 0.8)",
